@@ -1,5 +1,5 @@
-import PdfPreview from "./PdfPreview";
 import { Box } from "@mui/material";
+import PdfPreview from "./PdfPreview";
 
 interface PdfPreviewProps {
   uploadedFiles: FileList;
@@ -9,13 +9,20 @@ function Previews({ uploadedFiles }: PdfPreviewProps) {
   console.log(uploadedFiles);
 
   return (
-    <div>
+    <Box
+      sx={{
+        marginTop: 8,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "flex-start",
+        justifyContent: "center",
+        flexWrap: "wrap",
+      }}
+    >
       {Array.from(uploadedFiles).map((file) => (
-        <div key={file.name}>
-          <PdfPreview file={file} />
-        </div>
+        <PdfPreview file={file} key={file.name} />
       ))}
-    </div>
+    </Box>
   );
 }
 

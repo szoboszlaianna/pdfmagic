@@ -41,7 +41,7 @@ const UploadCard = ({ onUploadComplete }: UploadCardProps) => {
   }
 
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card sx={{ minWidth: 275, maxWidth: "sm" }}>
       <CardHeader title="Upload Files" />
       <CardContent
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
