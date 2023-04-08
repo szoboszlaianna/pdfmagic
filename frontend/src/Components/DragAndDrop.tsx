@@ -3,7 +3,7 @@ import { Button, Grid } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 interface DragAndDropProps {
-  onFilesSelected: (files: FileList | null) => void;
+  onFilesSelected: (files: File[]) => void;
 }
 
 const DragAndDrop = ({ onFilesSelected }: DragAndDropProps) => {
@@ -26,7 +26,11 @@ const DragAndDrop = ({ onFilesSelected }: DragAndDropProps) => {
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setHighlight(false);
-    const files = event.dataTransfer.files;
+    const files: File[] = [];
+    for (let i = 0; i < event.dataTransfer.files.length; i++) {
+      const file = event.dataTransfer.files[i];
+      files.push(file);
+    }
     onFilesSelected(files);
   };
 
@@ -37,9 +41,12 @@ const DragAndDrop = ({ onFilesSelected }: DragAndDropProps) => {
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      onFilesSelected(event.target.files);
+    const files: File[] = [];
+    for (let i = 0; i < event.target.files!.length; i++) {
+      const file = event.target.files![i];
+      files.push(file);
     }
+    onFilesSelected(files);
   };
 
   return (

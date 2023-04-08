@@ -7,14 +7,19 @@ import Previews from "./Components/Previews";
 import UploadCard from "./Components/UploadCard";
 
 function App() {
-  // useEffect(() => {
-  //   axios.get("/hello")
-  // }, [])
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 
-  const [uploadedFiles, setUploadedFiles] = useState<FileList | null>(null);
+  function handleUploadComplete(files: File[]): void {
+    setUploadedFiles((prevUploadedFiles: File[]) => [
+      ...prevUploadedFiles,
+      ...files,
+    ]);
+  }
 
-  function handleUploadComplete(files: FileList): void {
-    setUploadedFiles(files);
+  function handleFileDelete(fileToDelete: File): void {
+    setUploadedFiles((prevUploadedFiles: File[]) =>
+      prevUploadedFiles.filter((file) => file !== fileToDelete)
+    );
   }
 
   return (
@@ -31,9 +36,12 @@ function App() {
         >
           <UploadCard onUploadComplete={handleUploadComplete} />
         </Box>
-        {uploadedFiles && (
+        {uploadedFiles.length > 0 && (
           <>
-            <Previews uploadedFiles={uploadedFiles} />
+            <Previews
+              uploadedFiles={uploadedFiles}
+              onDelete={handleFileDelete}
+            />
             <MergeButton uploadedFiles={uploadedFiles} />
           </>
         )}

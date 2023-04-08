@@ -1,8 +1,9 @@
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import CallMergeIcon from "@mui/icons-material/CallMerge";
+import { toast } from "react-toastify";
 
 interface MergeButtonProps {
-  uploadedFiles: FileList;
+  uploadedFiles: File[];
 }
 
 function MergeButton({ uploadedFiles }: MergeButtonProps) {
@@ -11,7 +12,7 @@ function MergeButton({ uploadedFiles }: MergeButtonProps) {
 
     // append uploaded files to form data
     for (let i = 0; i < uploadedFiles.length; i++) {
-      formData.append("files[]", uploadedFiles.item(i)!);
+      formData.append("files[]", uploadedFiles[i]);
     }
 
     try {
@@ -33,19 +34,27 @@ function MergeButton({ uploadedFiles }: MergeButtonProps) {
       document.body.appendChild(link);
       link.click();
     } catch (error) {
-      console.error("Error merging PDFs:", error);
+      toast.error(`Error merging PDFs: ${error}`);
     }
   };
 
   return (
-    <Button
-      variant="contained"
-      color="secondary"
-      startIcon={<CallMergeIcon />}
-      onClick={handleMerge}
+    <Box
+      sx={{
+        margin: 8,
+        display: "flex",
+        justifyContent: "center",
+      }}
     >
-      Merge PDFs
-    </Button>
+      <Button
+        variant="contained"
+        color="secondary"
+        startIcon={<CallMergeIcon />}
+        onClick={handleMerge}
+      >
+        Merge PDFs
+      </Button>
+    </Box>
   );
 }
 

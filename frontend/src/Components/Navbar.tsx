@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 
-const pages = ["Merge pdf", "Split pdf", "Delete pages"];
+const pages = ["Merge pdf"];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(

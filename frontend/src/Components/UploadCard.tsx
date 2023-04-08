@@ -3,11 +3,11 @@ import DragAndDrop from "./DragAndDrop";
 import { toast } from "react-toastify";
 
 type UploadCardProps = {
-  onUploadComplete: (files: FileList) => void;
+  onUploadComplete: (files: File[]) => void;
 };
 
 const UploadCard = ({ onUploadComplete }: UploadCardProps) => {
-  function handleFilesSelected(files: FileList | null): void {
+  function handleFilesSelected(files: File[] | null): void {
     const formData: FormData = new FormData();
 
     if (!files || files.length === 0) {
