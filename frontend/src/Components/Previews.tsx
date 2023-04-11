@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Card } from "@mui/material";
 import { useCallback } from "react";
 import PdfPreview from "./PdfPreview";
 

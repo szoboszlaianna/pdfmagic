@@ -42,11 +42,12 @@ function PdfPreview({ file, onFileDelete }: PdfPreviewProps) {
         flexDirection: "column",
         alignItems: "center",
         margin: 2,
+        padding: 1,
         position: "relative",
       }}
     >
       <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
-        <div style={{ position: "relative", width: 200 }}>
+        <div style={{ position: "relative" }}>
           <Page
             pageNumber={pageNumber}
             renderTextLayer={false}
@@ -62,7 +63,7 @@ function PdfPreview({ file, onFileDelete }: PdfPreviewProps) {
                 sx={{
                   position: "absolute",
                   top: -5,
-                  right: 30,
+                  right: 0,
                   zIndex: 2,
                 }}
               >
@@ -73,7 +74,13 @@ function PdfPreview({ file, onFileDelete }: PdfPreviewProps) {
         </div>
       </Document>
       {numPages && (
-        <div>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
           <Button
             disabled={pageNumber <= 1}
             onClick={previousPage}
@@ -89,7 +96,7 @@ function PdfPreview({ file, onFileDelete }: PdfPreviewProps) {
             onClick={nextPage}
             type="button"
           />
-        </div>
+        </Box>
       )}
     </Box>
   );
