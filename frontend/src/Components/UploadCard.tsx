@@ -15,7 +15,7 @@ const UploadCard = ({ onUploadComplete }: UploadCardProps) => {
       return;
     }
 
-    for (let i: number = 0; i < files.length; i++) {
+    for (let i = 0; i < files.length; i++) {
       formData.append("file", files[i]);
     }
 
