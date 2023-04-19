@@ -1,6 +1,6 @@
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack5";
 import { useCallback, useState } from "react";
-import { Box, Button, IconButton, Tooltip } from "@mui/material";
+import { Box, Button, Grid, IconButton, Tooltip } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -34,9 +34,14 @@ function PdfPreview({ file, onFileDelete }: PdfPreviewProps) {
   };
 
   return (
-    <Box
+    <Grid
+      item
+      draggable
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
+      xs={8}
+      sm={5}
+      md={3}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -44,8 +49,28 @@ function PdfPreview({ file, onFileDelete }: PdfPreviewProps) {
         margin: 2,
         padding: 1,
         position: "relative",
+        height: 300,
+        justifyContent: "center",
+        backgroundColor: "rgba(254, 107, 139, 0.4)",
+        borderRadius: 5,
       }}
     >
+      {hovering && (
+        <Tooltip title="Delete file">
+          <IconButton
+            size="large"
+            onClick={deleteFile}
+            sx={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              zIndex: 2,
+            }}
+          >
+            <DeleteIcon fontSize="medium" />
+          </IconButton>
+        </Tooltip>
+      )}
       <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
         <div style={{ position: "relative" }}>
           <Page
@@ -55,22 +80,6 @@ function PdfPreview({ file, onFileDelete }: PdfPreviewProps) {
             scale={0.8}
             width={200}
           />
-          {hovering && (
-            <Tooltip title="Delete file">
-              <IconButton
-                size="large"
-                onClick={deleteFile}
-                sx={{
-                  position: "absolute",
-                  top: -5,
-                  right: 0,
-                  zIndex: 2,
-                }}
-              >
-                <DeleteIcon fontSize="medium" />
-              </IconButton>
-            </Tooltip>
-          )}
         </div>
       </Document>
       {numPages && (
@@ -98,7 +107,7 @@ function PdfPreview({ file, onFileDelete }: PdfPreviewProps) {
           />
         </Box>
       )}
-    </Box>
+    </Grid>
   );
 }
 

@@ -72,7 +72,7 @@ const DragAndDrop = ({ onFilesSelected }: DragAndDropProps) => {
         <Button
           onClick={handleButtonClick}
           variant="contained"
-          color="secondary"
+          color="success"
           startIcon={<CloudUploadIcon />}
         >
           Browse files

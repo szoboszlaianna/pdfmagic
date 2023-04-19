@@ -1,4 +1,4 @@
-import { Box, Card } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { useCallback } from "react";
 import PdfPreview from "./PdfPreview";
 
@@ -16,16 +16,7 @@ function Previews({ uploadedFiles, onDelete }: PdfPreviewProps) {
   );
 
   return (
-    <Box
-      sx={{
-        marginTop: 8,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "flex-start",
-        justifyContent: "center",
-        flexWrap: "wrap",
-      }}
-    >
+    <Grid container sx={{ marginTop: 8 }} spacing={2} justifyContent="center">
       {Array.from(uploadedFiles).map((file) => (
         <PdfPreview
           file={file}
@@ -33,7 +24,7 @@ function Previews({ uploadedFiles, onDelete }: PdfPreviewProps) {
           onFileDelete={handleFileDelete}
         />
       ))}
-    </Box>
+    </Grid>
   );
 }
 

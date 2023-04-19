@@ -1,10 +1,10 @@
 import { Box, Container } from "@mui/material";
 import { useState } from "react";
 import "./App.css";
-import MergeButton from "./Components/MergeButton";
-import Navbar from "./Components/Navbar";
-import Previews from "./Components/Previews";
-import UploadCard from "./Components/UploadCard";
+import MergeButton from "./components/MergeButton";
+import Navbar from "./components/Navbar";
+import Previews from "./components/Previews";
+import UploadCard from "./components/UploadCard";
 
 function App() {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
@@ -25,7 +25,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <Container maxWidth="md" sx={{ marginTop: "2rem" }}>
+      <Container sx={{ marginTop: "2rem" }}>
         <Box
           sx={{
             marginTop: 8,
@@ -35,16 +35,17 @@ function App() {
           }}
         >
           <UploadCard onUploadComplete={handleUploadComplete} />
+
+          {uploadedFiles.length > 0 && (
+            <>
+              <Previews
+                uploadedFiles={uploadedFiles}
+                onDelete={handleFileDelete}
+              />
+              <MergeButton uploadedFiles={uploadedFiles} />
+            </>
+          )}
         </Box>
-        {uploadedFiles.length > 0 && (
-          <>
-            <Previews
-              uploadedFiles={uploadedFiles}
-              onDelete={handleFileDelete}
-            />
-            <MergeButton uploadedFiles={uploadedFiles} />
-          </>
-        )}
       </Container>
     </>
   );

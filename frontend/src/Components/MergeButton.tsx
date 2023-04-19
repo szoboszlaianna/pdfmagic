@@ -48,7 +48,7 @@ function MergeButton({ uploadedFiles }: MergeButtonProps) {
     >
       <Button
         variant="contained"
-        color="secondary"
+        color="primary"
         size="large"
         startIcon={<CallMergeIcon />}
         onClick={handleMerge}

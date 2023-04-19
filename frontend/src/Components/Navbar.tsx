@@ -10,8 +10,13 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+import { styled } from "@mui/material/styles";
 
 const pages = ["Merge pdf"];
+
+const GradientAppBar = styled(AppBar)({
+  background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+});
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -27,7 +32,7 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static" color="secondary">
+    <GradientAppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AutoFixHighIcon
@@ -125,7 +130,7 @@ function Navbar() {
           </Box>
         </Toolbar>
       </Container>
-    </AppBar>
+    </GradientAppBar>
   );
 }
 export default Navbar;
