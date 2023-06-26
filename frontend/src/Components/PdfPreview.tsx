@@ -51,7 +51,7 @@ function PdfPreview({ file, onFileDelete }: PdfPreviewProps) {
         position: "relative",
         height: 300,
         justifyContent: "center",
-        backgroundColor: "rgba(254, 107, 139, 0.4)",
+        backgroundColor: "rgba(255,141,84, 0.6)",
         borderRadius: 5,
       }}
     >

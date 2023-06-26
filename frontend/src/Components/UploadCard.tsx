@@ -30,7 +30,6 @@ const UploadCard = ({ onUploadComplete }: UploadCardProps) => {
         return response.json();
       })
       .then((data: any) => {
-        console.log(data);
         onUploadComplete(files);
       })
       .catch((error: Error) => {
@@ -41,7 +40,7 @@ const UploadCard = ({ onUploadComplete }: UploadCardProps) => {
   }
 
   return (
-    <Card sx={{ minWidth: 275, maxWidth: "sm" }}>
+    <Card sx={{ minWidth: 275, maxWidth: "sm" }} elevation={3}>
       <CardHeader title="Upload Files" />
       <CardContent
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
