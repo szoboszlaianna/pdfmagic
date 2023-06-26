@@ -1,5 +1,7 @@
 # PDF Magic
 
+![Alt Text](./readme.png)
+
 PDF Magic is an application that provides various PDF functionalities, such as merging PDFs and deleting pages. This README will guide you through the setup and usage of the application.
 
 ## Table of Contents
