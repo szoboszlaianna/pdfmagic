@@ -70,7 +70,7 @@ function Previews({
             margin: 2,
             padding: 1,
             position: "relative",
-            height: 300,
+            height: 400,
             justifyContent: "center",
             backgroundColor: "rgba(255,141,84, 0.6)",
             borderRadius: 5,
