@@ -63,7 +63,7 @@ function Previews({
           sm={5}
           md={3}
           sx={{
-            cursor: index === hovering ? "grabbing" : "grab",
+            cursor: index === hovering ? "grab" : "",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -74,13 +74,15 @@ function Previews({
             justifyContent: "center",
             backgroundColor: "rgba(255,141,84, 0.6)",
             borderRadius: 5,
+            border: index === hovering ? "2px solid #FFF" : "none",
+            opacity: index === hovering ? 1 : 0.8,
           }}
           key={file.name}
           onDragStart={(event) => handleDragStart(event, index)}
           onDragOver={handleDragOver}
           onDrop={(event) => handleDrop(event, index)}
           onMouseEnter={() => setHovering(index)}
-          onMouseLeave={() => setHovering(index)}
+          onMouseLeave={() => setHovering(null)}
         >
           <PdfPreview
             file={file}
