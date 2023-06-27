@@ -1,6 +1,6 @@
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack5";
 import { useCallback, useState } from "react";
-import { Box, Button, Grid, IconButton, Tooltip } from "@mui/material";
+import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -8,12 +8,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 interface PdfPreviewProps {
   file: File;
   onFileDelete: (file: File) => void;
+  hovering: boolean;
 }
 
-function PdfPreview({ file, onFileDelete }: PdfPreviewProps) {
+function PdfPreview({ file, onFileDelete, hovering }: PdfPreviewProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
-  const [hovering, setHovering] = useState(false);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
@@ -34,27 +34,7 @@ function PdfPreview({ file, onFileDelete }: PdfPreviewProps) {
   };
 
   return (
-    <Grid
-      item
-      draggable
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
-      xs={8}
-      sm={5}
-      md={3}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        margin: 2,
-        padding: 1,
-        position: "relative",
-        height: 300,
-        justifyContent: "center",
-        backgroundColor: "rgba(255,141,84, 0.6)",
-        borderRadius: 5,
-      }}
-    >
+    <>
       {hovering && (
         <Tooltip title="Delete file">
           <IconButton
@@ -107,7 +87,7 @@ function PdfPreview({ file, onFileDelete }: PdfPreviewProps) {
           />
         </Box>
       )}
-    </Grid>
+    </>
   );
 }
 

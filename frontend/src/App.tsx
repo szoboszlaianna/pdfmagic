@@ -17,9 +17,8 @@ function App() {
   }
 
   function handleFileDelete(fileToDelete: File): void {
-    setUploadedFiles((prevUploadedFiles: File[]) =>
-      prevUploadedFiles.filter((file) => file !== fileToDelete)
-    );
+    const newList = uploadedFiles.filter((file: File) => file !== fileToDelete);
+    setUploadedFiles(newList);
   }
 
   return (
@@ -40,6 +39,7 @@ function App() {
             <>
               <Previews
                 uploadedFiles={uploadedFiles}
+                setUploadedFiles={setUploadedFiles}
                 onDelete={handleFileDelete}
               />
               <MergeButton uploadedFiles={uploadedFiles} />
