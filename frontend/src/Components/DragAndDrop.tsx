@@ -4,9 +4,10 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 interface DragAndDropProps {
   onFilesSelected: (files: File[]) => void;
+  multiple?: boolean;
 }
 
-const DragAndDrop = ({ onFilesSelected }: DragAndDropProps) => {
+const DragAndDrop = ({ onFilesSelected, multiple }: DragAndDropProps) => {
   const [highlight, setHighlight] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -68,7 +69,7 @@ const DragAndDrop = ({ onFilesSelected }: DragAndDropProps) => {
       }}
     >
       <Grid item xs={12}>
-        Drag and drop your PDF files here or{" "}
+        {`Drag and drop your PDF file${multiple ? "s" : ""} here or  `}
         <Button
           onClick={handleButtonClick}
           variant="contained"
@@ -83,7 +84,7 @@ const DragAndDrop = ({ onFilesSelected }: DragAndDropProps) => {
           style={{ display: "none" }}
           onChange={handleFileChange}
           accept=".pdf"
-          multiple
+          multiple={multiple}
         />
       </Grid>
       <Grid item xs={12}>

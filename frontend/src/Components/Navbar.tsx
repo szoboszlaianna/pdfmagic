@@ -11,8 +11,12 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import { styled } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
-const pages = ["Merge pdf"];
+const pages = [
+  { name: "Merge pdf", route: "/merge" },
+  { name: "Remove page", route: "/remove" },
+];
 
 const GradientAppBar = styled(AppBar)({
   background: "linear-gradient(45deg, #FF536F 30%, #FF8D54 90%)",
@@ -22,6 +26,7 @@ function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -29,6 +34,11 @@ function Navbar() {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const handleMenuItemClick = (route: string) => {
+    navigate(route); // Redirect the user to the specified route
+    handleCloseNavMenu();
   };
 
   return (
@@ -85,8 +95,11 @@ function Navbar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem
+                  key={page.name}
+                  onClick={() => handleMenuItemClick(page.route)}
+                >
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -120,11 +133,11 @@ function Navbar() {
           >
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.name}
+                onClick={() => handleMenuItemClick(page.route)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>
@@ -134,3 +147,6 @@ function Navbar() {
   );
 }
 export default Navbar;
+function useHistory() {
+  throw new Error("Function not implemented.");
+}

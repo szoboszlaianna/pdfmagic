@@ -9,18 +9,15 @@ interface MergeButtonProps {
 function MergeButton({ uploadedFiles }: MergeButtonProps) {
   const handleMerge = async () => {
     const formData = new FormData();
-
     // append uploaded files to form data
     for (let i = 0; i < uploadedFiles.length; i++) {
       formData.append("files[]", uploadedFiles[i]);
     }
-
     try {
       const response = await fetch("/merge-pdf", {
         method: "POST",
         body: formData,
       });
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
