@@ -1,11 +1,12 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useState } from "react";
+import { convertToObject } from "typescript";
 import PdfPagesPreview from "../components/PdfPagesPreview";
-import Previews from "../components/Previews";
 import UploadCard from "../components/UploadCard";
 
 function PdfRemove() {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [deletedPages, setDeletedPages] = useState<number[]>([]);
 
   function handleUploadComplete(files: File[]): void {
     setUploadedFiles((prevUploadedFiles: File[]) => [
@@ -13,14 +14,43 @@ function PdfRemove() {
       ...files,
     ]);
   }
-
-  function handleFileDelete(fileToDelete: File): void {
-    const newList = uploadedFiles.filter((file: File) => file !== fileToDelete);
-    setUploadedFiles(newList);
-  }
-
   function handleRemove() {
-    console.log("remove");
+    // Create an array of page indexes to remove
+
+    // Create a FormData object and append the file and indexes
+    const formData = new FormData();
+    formData.append("file", uploadedFiles[0]);
+    deletedPages.forEach((index) => {
+      formData.append("indexes", String(index));
+    });
+
+    // Send a POST request to the /remove endpoint
+    fetch("/remove", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to remove pages");
+        }
+        return response.blob();
+      })
+      .then((blob) => {
+        // Create a temporary URL for the downloaded file
+        const url = URL.createObjectURL(blob);
+
+        // Create a link element and trigger the download
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "updated.pdf";
+        link.click();
+
+        // Clean up the temporary URL
+        URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   return (
@@ -38,7 +68,8 @@ function PdfRemove() {
           <>
             <PdfPagesPreview
               file={uploadedFiles[0]}
-              onDelete={handleFileDelete}
+              deletedPages={deletedPages}
+              setDeletedPages={setDeletedPages}
             />
             <Button
               variant="contained"

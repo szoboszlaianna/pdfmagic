@@ -1,4 +1,3 @@
-import { Document } from "react-pdf/dist/esm/entry.webpack5";
 import { useState } from "react";
 import PageView from "./PageView";
 import PdfTooltip from "./PdfTooltip";
@@ -7,10 +6,15 @@ import PreviewModal from "./PreviewModal";
 
 interface PdfPreviewProps {
   file: File;
-  onDelete: (file: File) => void;
+  deletedPages: number[];
+  setDeletedPages: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-function PdfPagesPreview({ file, onDelete }: PdfPreviewProps) {
+function PdfPagesPreview({
+  file,
+  deletedPages,
+  setDeletedPages,
+}: PdfPreviewProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [hovering, setHovering] = useState<number | null>(null);
@@ -20,17 +24,23 @@ function PdfPagesPreview({ file, onDelete }: PdfPreviewProps) {
     setNumPages(numPages);
   }
 
-  const handleDelete = () => {
-    onDelete(file);
+  const handleDelete = (pageIndex: number) => {
+    setDeletedPages((prevDeletedPages) => [...prevDeletedPages, pageIndex]);
   };
+
   function handleOpenModal(index: number) {
     setPageNumber(index + 1);
     setOpenModal(true);
   }
+
   return (
     <>
       <Grid container sx={{ marginTop: 8 }} spacing={2} justifyContent="center">
         {Array.from(new Array(numPages), (el, index) => {
+          if (deletedPages.includes(index)) {
+            return null; // Skip rendering the deleted page
+          }
+
           return (
             <Grid
               key={index}
@@ -57,7 +67,7 @@ function PdfPagesPreview({ file, onDelete }: PdfPreviewProps) {
             >
               {hovering === index && (
                 <PdfTooltip
-                  handleDelete={handleDelete}
+                  handleDelete={() => handleDelete(index)}
                   openPreviewModal={() => handleOpenModal(index)}
                 />
               )}
