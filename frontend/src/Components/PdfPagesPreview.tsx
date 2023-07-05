@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageView from "./PageView";
 import PdfTooltip from "./PdfTooltip";
 import { Grid } from "@mui/material";
@@ -8,12 +8,14 @@ interface PdfPreviewProps {
   file: File;
   deletedPages: number[];
   setDeletedPages: React.Dispatch<React.SetStateAction<number[]>>;
+  onFileDelete: () => void;
 }
 
 function PdfPagesPreview({
   file,
   deletedPages,
   setDeletedPages,
+  onFileDelete,
 }: PdfPreviewProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState<number>(1);
@@ -23,6 +25,14 @@ function PdfPagesPreview({
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
   }
+
+  useEffect(() => {
+    console.log(deletedPages);
+    console.log(numPages);
+    if (deletedPages.length > 0 && deletedPages.length === numPages) {
+      onFileDelete();
+    }
+  }, [numPages, deletedPages]);
 
   const handleDelete = (pageIndex: number) => {
     setDeletedPages((prevDeletedPages) => [...prevDeletedPages, pageIndex]);

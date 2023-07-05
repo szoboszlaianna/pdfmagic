@@ -14,6 +14,12 @@ function PdfRemove() {
       ...files,
     ]);
   }
+
+  function handleFileDelete(): void {
+    setUploadedFiles([]);
+    setDeletedPages([]);
+  }
+
   function handleRemove() {
     // Create an array of page indexes to remove
 
@@ -70,6 +76,7 @@ function PdfRemove() {
               file={uploadedFiles[0]}
               deletedPages={deletedPages}
               setDeletedPages={setDeletedPages}
+              onFileDelete={handleFileDelete}
             />
             <Button
               variant="contained"

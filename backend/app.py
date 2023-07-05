@@ -1,8 +1,9 @@
 import os
 import tempfile
 from flask import Flask, request, jsonify, send_file
-from PyPDF2 import PdfFileReader, PdfFileWriter
+from PyPDF2 import PdfReader, PdfWriter
 import io
+import logging
 
 app = Flask(__name__)
 
@@ -52,17 +53,19 @@ def remove_pages():
     # retrieve file from request
     file = request.files['file']
 
+    logging.warning("hdddello")
+
     # create PDF reader and writer
-    reader = PdfFileReader(file)
-    writer = PdfFileWriter()
+    reader = PdfReader(file)
+    writer = PdfWriter()
 
     # retrieve indexes to remove
     indexes = [int(index) for index in request.form.getlist('indexes')]
 
     # loop through pages and add to writer if not in indexes
-    for i in range(reader.getNumPages()):
+    for i in range(len(reader.pages)):
         if i not in indexes:
-            writer.addPage(reader.getPage(i))
+            writer.add_page(reader.pages[i])
 
     # create temporary file to save the updated PDF
     temp_file = tempfile.NamedTemporaryFile(suffix='.pdf', delete=False)
@@ -73,7 +76,7 @@ def remove_pages():
     temp_files[temp_file.name] = temp_file
 
     # return the temporary file for download
-    return send_file(temp_file.name, download_name="updated.pdf", as_attachment=True)
+    return send_file(temp_file.name, download_name=temp_file.name, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)
