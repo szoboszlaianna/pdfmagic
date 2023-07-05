@@ -1,6 +1,6 @@
-import { Document, Page, pdfjs } from "react-pdf/dist/esm/entry.webpack5";
+import { pdfjs } from "react-pdf/dist/esm/entry.webpack5";
 import { useCallback, useState } from "react";
-import { Box, Button, IconButton, Tooltip, Modal } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 

@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 const pages = [
   { name: "Merge pdf", route: "/merge" },
   { name: "Remove page", route: "/remove" },
+  { name: "Reorder", route: "/reorder" },
 ];
 
 const GradientAppBar = styled(AppBar)({

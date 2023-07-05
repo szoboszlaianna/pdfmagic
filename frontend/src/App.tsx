@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import PdfMerge from "./pages/PdfMerge";
 import PdfRemove from "./pages/PdfRemove";
+import PdfReorder from "./pages/PdfReorder";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/merge" element={<PdfMerge />} />
           <Route path="/remove" element={<PdfRemove />} />
+          <Route path="/reorder" element={<PdfReorder />} />
           {/* Add more routes as needed */}
         </Routes>
       </Container>

@@ -6,9 +6,17 @@ import PreviewModal from "./PreviewModal";
 
 interface PdfPreviewProps {
   file: File;
+  deletedPages: number[];
+  setDeletedPages: React.Dispatch<React.SetStateAction<number[]>>;
+  onFileDelete: () => void;
 }
 
-function PdfPagesPreview({ file }: PdfPreviewProps) {
+function PdfDeletePagesPreview({
+  file,
+  deletedPages,
+  setDeletedPages,
+  onFileDelete,
+}: PdfPreviewProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [hovering, setHovering] = useState<number | null>(null);
@@ -17,6 +25,17 @@ function PdfPagesPreview({ file }: PdfPreviewProps) {
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
   }
+
+  useEffect(() => {
+    if (deletedPages.length > 0 && deletedPages.length === numPages) {
+      onFileDelete();
+    }
+  }, [numPages, deletedPages]);
+
+  const handleDelete = (pageIndex: number) => {
+    setDeletedPages((prevDeletedPages) => [...prevDeletedPages, pageIndex]);
+  };
+
   function handleOpenModal(index: number) {
     setPageNumber(index + 1);
     setOpenModal(true);
@@ -26,6 +45,9 @@ function PdfPagesPreview({ file }: PdfPreviewProps) {
     <>
       <Grid container sx={{ marginTop: 8 }} spacing={2} justifyContent="center">
         {Array.from(new Array(numPages), (el, index) => {
+          if (deletedPages.includes(index)) {
+            return null; // Skip rendering the deleted page
+          }
           return (
             <Grid
               key={index}
@@ -51,7 +73,10 @@ function PdfPagesPreview({ file }: PdfPreviewProps) {
               onMouseLeave={() => setHovering(null)}
             >
               {hovering === index && (
-                <PdfTooltip openPreviewModal={() => handleOpenModal(index)} />
+                <PdfTooltip
+                  handleDelete={() => handleDelete(index)}
+                  openPreviewModal={() => handleOpenModal(index)}
+                />
               )}
               <PageView
                 key={index}
@@ -73,4 +98,4 @@ function PdfPagesPreview({ file }: PdfPreviewProps) {
   );
 }
 
-export default PdfPagesPreview;
+export default PdfDeletePagesPreview;

@@ -1,9 +1,9 @@
 import { Box, Button } from "@mui/material";
 import { useState } from "react";
-import PdfDeletePagesPreview from "../components/PdfDeletePagesPreview";
+import PdfPagesPreview from "../components/PdfPagesPreview";
 import UploadCard from "../components/UploadCard";
 
-function PdfRemove() {
+function PdfReorder() {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [deletedPages, setDeletedPages] = useState<number[]>([]);
 
@@ -71,12 +71,7 @@ function PdfRemove() {
         <UploadCard onUploadComplete={handleUploadComplete} />
         {uploadedFiles.length > 0 && (
           <>
-            <PdfDeletePagesPreview
-              file={uploadedFiles[0]}
-              deletedPages={deletedPages}
-              setDeletedPages={setDeletedPages}
-              onFileDelete={handleFileDelete}
-            />
+            <PdfPagesPreview file={uploadedFiles[0]} />
             <Button
               variant="contained"
               color="primary"
@@ -92,4 +87,4 @@ function PdfRemove() {
   );
 }
 
-export default PdfRemove;
+export default PdfReorder;
