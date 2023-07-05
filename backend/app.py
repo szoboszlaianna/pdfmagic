@@ -1,8 +1,9 @@
 import os
 import tempfile
 from flask import Flask, request, jsonify, send_file
-from PyPDF2 import PdfMerger
+from PyPDF2 import PdfReader, PdfWriter
 import io
+import logging
 
 app = Flask(__name__)
 
@@ -42,6 +43,40 @@ def merge_pdf():
     merger.write(output)
     output.seek(0)
     return send_file(output, download_name="merged.pdf", as_attachment=True)
+
+@app.route('/remove', methods=['POST'])
+def remove_pages():
+    # check if request contains necessary parameters
+    if 'file' not in request.files or 'indexes' not in request.form:
+        return "Invalid request parameters", 400
+
+    # retrieve file from request
+    file = request.files['file']
+
+    logging.warning("hdddello")
+
+    # create PDF reader and writer
+    reader = PdfReader(file)
+    writer = PdfWriter()
+
+    # retrieve indexes to remove
+    indexes = [int(index) for index in request.form.getlist('indexes')]
+
+    # loop through pages and add to writer if not in indexes
+    for i in range(len(reader.pages)):
+        if i not in indexes:
+            writer.add_page(reader.pages[i])
+
+    # create temporary file to save the updated PDF
+    temp_file = tempfile.NamedTemporaryFile(suffix='.pdf', delete=False)
+    with open(temp_file.name, 'wb') as output_file:
+        writer.write(output_file)
+
+    # add the temporary file to the list
+    temp_files[temp_file.name] = temp_file
+
+    # return the temporary file for download
+    return send_file(temp_file.name, download_name=temp_file.name, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)

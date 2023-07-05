@@ -3,9 +3,10 @@ import { useCallback, useState } from "react";
 import { Box, Button, IconButton, Tooltip, Modal } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ZoomInIcon from "@mui/icons-material/ZoomIn";
-import CloseIcon from "@mui/icons-material/Close";
+
+import PageView from "./PageView";
+import PreviewModal from "./PreviewModal";
+import PdfTooltip from "./PdfTooltip";
 
 interface PdfPreviewProps {
   file: File;
@@ -49,48 +50,16 @@ function PdfPreview({ file, onFileDelete, hovering }: PdfPreviewProps) {
   return (
     <>
       {hovering && (
-        <>
-          <Tooltip title="Delete file">
-            <IconButton
-              size="large"
-              onClick={deleteFile}
-              sx={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                zIndex: 2,
-              }}
-            >
-              <DeleteIcon fontSize="medium" />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Preview">
-            <IconButton
-              size="large"
-              onClick={openPreviewModal}
-              sx={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                zIndex: 2,
-              }}
-            >
-              <ZoomInIcon fontSize="medium" />
-            </IconButton>
-          </Tooltip>
-        </>
+        <PdfTooltip
+          handleDelete={deleteFile}
+          openPreviewModal={openPreviewModal}
+        />
       )}
-      <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
-        <div style={{ position: "relative" }}>
-          <Page
-            pageNumber={pageNumber}
-            renderTextLayer={false}
-            renderAnnotationLayer={false}
-            scale={0.9}
-            width={250}
-          />
-        </div>
-      </Document>
+      <PageView
+        file={file}
+        onDocumentLoadSuccess={onDocumentLoadSuccess}
+        pageNumber={pageNumber}
+      />
       {numPages && (
         <Box
           sx={{
@@ -114,49 +83,14 @@ function PdfPreview({ file, onFileDelete, hovering }: PdfPreviewProps) {
             onClick={nextPage}
             type="button"
           />
+          <PreviewModal
+            file={file}
+            openPreview={openPreview}
+            closePreviewModal={closePreviewModal}
+            pageNumber={pageNumber}
+          />
         </Box>
       )}
-      <Modal open={openPreview} onClose={closePreviewModal}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            backgroundColor: "#fff",
-            boxShadow: 24,
-            padding: "24px",
-            maxHeight: "90vh",
-            overflow: "auto",
-          }}
-        >
-          <IconButton
-            sx={{
-              position: "absolute",
-              top: "12px",
-              right: "12px",
-              zIndex: 1,
-            }}
-            onClick={closePreviewModal}
-          >
-            <CloseIcon fontSize="large" />
-          </IconButton>
-          <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
-            <Page pageNumber={pageNumber} scale={2} />
-          </Document>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              marginTop: "16px",
-            }}
-          >
-            <Button onClick={closePreviewModal} type="button">
-              Close
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
     </>
   );
 }
