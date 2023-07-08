@@ -1,7 +1,7 @@
 import os
 import tempfile
 from flask import Flask, request, jsonify, send_file
-from PyPDF2 import PdfReader, PdfWriter
+from PyPDF2 import PdfReader, PdfWriter, PdfMerger
 import io
 import logging
 

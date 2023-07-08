@@ -1,6 +1,6 @@
 import { pdfjs } from "react-pdf/dist/esm/entry.webpack5";
 import { useCallback, useState } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
@@ -72,15 +72,17 @@ function PdfPreview({ file, onFileDelete, hovering }: PdfPreviewProps) {
             disabled={pageNumber <= 1}
             onClick={previousPage}
             type="button"
+            size="small"
             startIcon={<ArrowBackIosNewIcon />}
           />
-          <span>{`Page ${pageNumber || (numPages ? 1 : "--")} of ${
-            numPages || "--"
-          }`}</span>
+          <Typography variant="caption">{`${
+            pageNumber || (numPages ? 1 : "--")
+          } of ${numPages || "--"}`}</Typography>
           <Button
             startIcon={<ArrowForwardIosIcon />}
             disabled={pageNumber >= numPages}
             onClick={nextPage}
+            size="small"
             type="button"
           />
           <PreviewModal

@@ -54,7 +54,7 @@ function PdfDeletePagesPreview({
               item
               xs={8}
               sm={5}
-              md={3}
+              md={2}
               sx={{
                 display: "flex",
                 flexDirection: "column",
@@ -62,7 +62,7 @@ function PdfDeletePagesPreview({
                 margin: 2,
                 padding: 1,
                 position: "relative",
-                height: 400,
+                height: 300,
                 justifyContent: "center",
                 backgroundColor: "rgba(255,141,84, 0.6)",
                 borderRadius: 5,
