@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import { Document, Page, pdfjs } from "react-pdf/dist/esm/entry.webpack5";
 interface PdfPagePreviewProps {
   file: File;

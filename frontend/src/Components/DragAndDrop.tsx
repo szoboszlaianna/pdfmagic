@@ -43,9 +43,11 @@ const DragAndDrop = ({ onFilesSelected, multiple }: DragAndDropProps) => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files: File[] = [];
-    for (let i = 0; i < event.target.files!.length; i++) {
-      const file = event.target.files![i];
-      files.push(file);
+    if (event.target.files) {
+      for (let i = 0; i < event.target.files.length; i++) {
+        const file = event.target.files[i];
+        files.push(file);
+      }
     }
     onFilesSelected(files);
   };

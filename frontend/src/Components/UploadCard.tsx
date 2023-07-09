@@ -30,13 +30,12 @@ const UploadCard = ({ onUploadComplete, multiple }: UploadCardProps) => {
         }
         return response.json();
       })
-      .then((data: any) => {
+      .then(() => {
         onUploadComplete(files);
       })
       .catch((error: Error) => {
         console.error(error);
         toast.error("Error uploading files");
-        // Handle errors
       });
   }
 
