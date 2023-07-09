@@ -10,6 +10,8 @@ services:
     environment:
       FLASK_ENV: env
       FLASK_APP: app.py
+    volumes:
+      - ./backend:/app
     restart: always
 
   frontend:

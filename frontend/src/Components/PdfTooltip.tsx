@@ -3,27 +3,29 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 
 interface TooltipProps {
-  handleDelete: () => void;
+  handleDelete?: () => void;
   openPreviewModal: () => void;
 }
 
 function PdfTooltip({ handleDelete, openPreviewModal }: TooltipProps) {
   return (
     <>
-      <Tooltip title="Delete file">
-        <IconButton
-          size="large"
-          onClick={handleDelete}
-          sx={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            zIndex: 2,
-          }}
-        >
-          <DeleteIcon fontSize="medium" />
-        </IconButton>
-      </Tooltip>
+      {handleDelete && (
+        <Tooltip title="Delete file">
+          <IconButton
+            size="large"
+            onClick={handleDelete}
+            sx={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              zIndex: 2,
+            }}
+          >
+            <DeleteIcon fontSize="medium" />
+          </IconButton>
+        </Tooltip>
+      )}
       <Tooltip title="Preview">
         <IconButton
           size="large"
