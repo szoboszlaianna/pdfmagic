@@ -36,9 +36,9 @@ jobs:
           node-version: "14"
 
       - name: Install ESLint
-        run: npm install eslint
+        run: nnpm install eslint --save-dev
 
       - name: Run ESLint on Frontend
         run: |
           cd frontend
-          npx eslint src
+          npm run lint
