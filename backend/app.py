@@ -53,8 +53,6 @@ def remove_pages():
     # retrieve file from request
     file = request.files['file']
 
-    logging.warning("hdddello")
-
     # create PDF reader and writer
     reader = PdfReader(file)
     writer = PdfWriter()
@@ -68,6 +66,40 @@ def remove_pages():
             writer.add_page(reader.pages[i])
 
     # create temporary file to save the updated PDF
+    temp_file = tempfile.NamedTemporaryFile(suffix='.pdf', delete=False)
+    with open(temp_file.name, 'wb') as output_file:
+        writer.write(output_file)
+
+    # add the temporary file to the list
+    temp_files[temp_file.name] = temp_file
+
+    # return the temporary file for download
+    return send_file(temp_file.name, download_name=temp_file.name, as_attachment=True)
+
+
+@app.route('/reorder', methods=['POST'])
+def reorder_pages():
+    # check if request contains necessary parameters
+    if 'file' not in request.files or 'indexes' not in request.form:
+        return "Invalid request parameters", 400
+
+    # retrieve file from request
+    file = request.files['file']
+
+    # create PDF reader and writer
+    reader = PdfReader(file)
+    writer = PdfWriter()
+
+    # retrieve indexes for reordering
+    indexes = [int(index) for index in request.form.getlist('indexes')]
+
+    # loop through indexes and add corresponding pages to writer
+    for index in indexes:
+        if index < 0 or index >= len(reader.pages):
+            return "Invalid page index", 400
+        writer.add_page(reader.pages[index])
+
+    # create temporary file to save the reordered PDF
     temp_file = tempfile.NamedTemporaryFile(suffix='.pdf', delete=False)
     with open(temp_file.name, 'wb') as output_file:
         writer.write(output_file)

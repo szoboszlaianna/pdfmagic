@@ -5,38 +5,26 @@ import UploadCard from "../components/UploadCard";
 
 function PdfReorder() {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-  const [deletedPages, setDeletedPages] = useState<number[]>([]);
+  const [pageOrder, setPageOrder] = useState<number[]>([0]);
 
   function handleUploadComplete(files: File[]): void {
-    setUploadedFiles((prevUploadedFiles: File[]) => [
-      ...prevUploadedFiles,
-      ...files,
-    ]);
+    setUploadedFiles(files);
   }
 
-  function handleFileDelete(): void {
-    setUploadedFiles([]);
-    setDeletedPages([]);
-  }
-
-  function handleRemove() {
-    // Create an array of page indexes to remove
-
-    // Create a FormData object and append the file and indexes
+  function handleReorder() {
     const formData = new FormData();
     formData.append("file", uploadedFiles[0]);
-    deletedPages.forEach((index) => {
+    pageOrder.forEach((index) => {
       formData.append("indexes", String(index));
     });
-
     // Send a POST request to the /remove endpoint
-    fetch("/remove", {
+    fetch("/reorder", {
       method: "POST",
       body: formData,
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Failed to remove pages");
+          throw new Error("Failed to reorder pages");
         }
         return response.blob();
       })
@@ -47,7 +35,7 @@ function PdfReorder() {
         // Create a link element and trigger the download
         const link = document.createElement("a");
         link.href = url;
-        link.download = "updated.pdf";
+        link.download = "sorted_pages.pdf";
         link.click();
 
         // Clean up the temporary URL
@@ -71,12 +59,16 @@ function PdfReorder() {
         <UploadCard onUploadComplete={handleUploadComplete} />
         {uploadedFiles.length > 0 && (
           <>
-            <PdfPagesPreview file={uploadedFiles[0]} />
+            <PdfPagesPreview
+              file={uploadedFiles[0]}
+              pageOrder={pageOrder}
+              setPageOrder={setPageOrder}
+            />
             <Button
               variant="contained"
               color="primary"
               size="large"
-              onClick={handleRemove}
+              onClick={handleReorder}
             >
               Save
             </Button>

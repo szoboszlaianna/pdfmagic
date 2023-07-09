@@ -75,9 +75,9 @@ function PdfPreview({ file, onFileDelete, hovering }: PdfPreviewProps) {
             size="small"
             startIcon={<ArrowBackIosNewIcon />}
           />
-          <Typography variant="caption">{`${
-            pageNumber || (numPages ? 1 : "--")
-          } of ${numPages || "--"}`}</Typography>
+          <span>{`${pageNumber || (numPages ? 1 : "--")} of ${
+            numPages || "--"
+          }`}</span>
           <Button
             startIcon={<ArrowForwardIosIcon />}
             disabled={pageNumber >= numPages}

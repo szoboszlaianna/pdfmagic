@@ -1,15 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
-import PageView from "./PageView";
+import { useCallback, useState } from "react";
 import PdfTooltip from "./PdfTooltip";
 import { Grid } from "@mui/material";
 import PreviewModal from "./PreviewModal";
+import PageView from "./PageView";
 
 interface PdfPreviewProps {
   file: File;
+  pageOrder: number[];
+  setPageOrder: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-function PdfPagesPreview({ file }: PdfPreviewProps) {
-  const [pageOrder, setPageOrder] = useState<number[]>([0]);
+function PdfPagesPreview({ file, pageOrder, setPageOrder }: PdfPreviewProps) {
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [hovering, setHovering] = useState<number | null>(null);
   const [openModal, setOpenModal] = useState<boolean>(false);

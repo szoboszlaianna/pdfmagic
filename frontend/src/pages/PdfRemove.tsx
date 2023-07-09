@@ -8,10 +8,7 @@ function PdfRemove() {
   const [deletedPages, setDeletedPages] = useState<number[]>([]);
 
   function handleUploadComplete(files: File[]): void {
-    setUploadedFiles((prevUploadedFiles: File[]) => [
-      ...prevUploadedFiles,
-      ...files,
-    ]);
+    setUploadedFiles(files);
   }
 
   function handleFileDelete(): void {
