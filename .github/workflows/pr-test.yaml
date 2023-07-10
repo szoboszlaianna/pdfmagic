@@ -35,7 +35,7 @@ jobs:
         with:
           node-version: "14"
 
-      - name: Install ESLint
+      - name: Install ESLint and plugins
         run: |
           npm install eslint --save-dev
           npm install eslint-plugin-react@latest --save-dev
