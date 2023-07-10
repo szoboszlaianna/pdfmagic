@@ -11,6 +11,7 @@ interface PageCardProps {
   onDocumentLoadSuccess?: (pdf: pdfjs.PDFDocumentProxy) => void;
   hovering: boolean;
   handleDelete?: () => void;
+  isFile?: boolean; //true if page is a whole file
 }
 
 function PageCard({
@@ -19,22 +20,38 @@ function PageCard({
   onDocumentLoadSuccess,
   hovering,
   handleDelete,
+  isFile,
 }: PageCardProps) {
   const [openModal, setOpenModal] = useState(false);
+
   return (
     <>
       <Card
         sx={{
-          height: "100%",
           maxWidth: 250,
           backgroundColor: "rgba(255,141,84, 0.6)",
           borderRadius: 5,
-          border: hovering ? "1px solid #FFF" : "none",
-          opacity: hovering ? 1 : 0.8,
+          height: "100%",
+          position: "relative",
+          overflow: "hidden",
+          "&:hover": {
+            "&:after": {
+              content: '""',
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.3)", // Adjust the color as needed
+            },
+          },
         }}
       >
         <CardContent
-          sx={{ position: "relative", width: 160, opacity: hovering ? 0.8 : 1 }}
+          sx={{
+            position: "relative",
+            width: 160,
+          }}
         >
           {hovering && (
             <Box
@@ -59,14 +76,25 @@ function PageCard({
             pageNumber={pageNumber}
             onDocumentLoadSuccess={onDocumentLoadSuccess}
           />
-          {/* <Typography variant="body2" color="text.secondary">
-            {file.name.length > 20 ? `${file.name.slice(0, 20)}...` : file.name}
-          </Typography> */}
         </CardContent>
-        <CardActions sx={{ justifyContent: "center" }}>
-          <Typography variant="body2" color="text.secondary">
-            Page {pageNumber}
-          </Typography>
+        <CardActions
+          sx={{
+            justifyContent: "center",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          {isFile ? (
+            <Typography variant="body2" color="text.secondary">
+              {file.name.length > 20
+                ? `${file.name.slice(0, 20)}...`
+                : file.name}
+            </Typography>
+          ) : (
+            <Typography variant="body2" color="text.secondary">
+              Page {pageNumber}
+            </Typography>
+          )}
         </CardActions>
       </Card>
       <PreviewModal

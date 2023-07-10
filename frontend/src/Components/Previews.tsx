@@ -74,6 +74,7 @@ function Previews({
             pageNumber={index + 1}
             hovering={index === hovering}
             handleDelete={() => handleFileDelete(file)}
+            isFile
           />
         </Grid>
       ))}
