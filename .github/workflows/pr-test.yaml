@@ -16,12 +16,12 @@ jobs:
           python-version: 3.x
 
       - name: Install Flake8
+        working-directory: backend
         run: pip install flake8
 
       - name: Run Flake8 on Backend
-        run: |
-          cd backend
-          flake8
+        working-directory: backend
+        run: flake8
 
   lint-frontend:
     name: Frontend Linting
@@ -36,10 +36,9 @@ jobs:
           node-version: "14"
 
       - name: Install ESLint and plugins
-        run: |
-          npm install
+        working-direcory: frontend
+        run: npm install
 
       - name: Run ESLint on Frontend
-        run: |
-          cd frontend
-          npm run lint
+        working-direcory: frontend
+        run: npm run lint
