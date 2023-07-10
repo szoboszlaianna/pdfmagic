@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
-import PdfPreview from "./PdfPreview";
+import PageCard from "./PageCard";
 
 interface PdfPreviewProps {
   uploadedFiles: File[];
@@ -59,23 +59,8 @@ function Previews({
         <Grid
           item
           draggable
-          xs={8}
-          sm={5}
-          md={2}
           sx={{
             cursor: index === hovering ? "grab" : "",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            margin: 2,
-            padding: 1,
-            position: "relative",
-            height: 300,
-            justifyContent: "center",
-            backgroundColor: "rgba(255,141,84, 0.6)",
-            borderRadius: 5,
-            border: index === hovering ? "2px solid #FFF" : "none",
-            opacity: index === hovering ? 1 : 0.8,
           }}
           key={file.name}
           onDragStart={(event) => handleDragStart(event, index)}
@@ -84,10 +69,11 @@ function Previews({
           onMouseEnter={() => setHovering(index)}
           onMouseLeave={() => setHovering(null)}
         >
-          <PdfPreview
+          <PageCard
             file={file}
-            onFileDelete={handleFileDelete}
+            pageNumber={index + 1}
             hovering={index === hovering}
+            handleDelete={() => handleFileDelete(file)}
           />
         </Grid>
       ))}

@@ -25,6 +25,7 @@ function PageCard({
     <>
       <Card
         sx={{
+          height: "100%",
           maxWidth: 250,
           backgroundColor: "rgba(255,141,84, 0.6)",
           borderRadius: 5,
