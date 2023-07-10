@@ -1,6 +1,6 @@
-import { Box, Button, IconButton, Modal } from "@mui/material";
-import { Page, Document } from "react-pdf";
+import { Box, IconButton, Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import PageView from "./PageView";
 
 interface ModalProps {
   file: File;
@@ -32,29 +32,17 @@ function PreviewModal({
       >
         <IconButton
           sx={{
+            fontSize: "10px",
             position: "absolute",
-            top: "12px",
-            right: "12px",
+            top: "2px",
+            right: "2px",
             zIndex: 1,
           }}
           onClick={closePreviewModal}
         >
-          <CloseIcon fontSize="large" />
+          <CloseIcon />
         </IconButton>
-        <Document file={file}>
-          <Page scale={2} pageNumber={pageNumber} />
-        </Document>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginTop: "16px",
-          }}
-        >
-          <Button onClick={closePreviewModal} type="button">
-            Close
-          </Button>
-        </Box>
+        <PageView pageNumber={pageNumber} width={400} file={file} />
       </Box>
     </Modal>
   );

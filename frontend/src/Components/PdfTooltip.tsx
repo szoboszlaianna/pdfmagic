@@ -8,38 +8,22 @@ interface TooltipProps {
 }
 
 function PdfTooltip({ handleDelete, openPreviewModal }: TooltipProps) {
+  console.log(handleDelete);
+  console.log(openPreviewModal);
   return (
     <>
+      <Tooltip title="Preview">
+        <IconButton onClick={openPreviewModal}>
+          <ZoomInIcon fontSize="medium" />
+        </IconButton>
+      </Tooltip>
       {handleDelete && (
         <Tooltip title="Delete file">
-          <IconButton
-            size="large"
-            onClick={handleDelete}
-            sx={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-              zIndex: 2,
-            }}
-          >
+          <IconButton onClick={handleDelete}>
             <DeleteIcon fontSize="medium" />
           </IconButton>
         </Tooltip>
       )}
-      <Tooltip title="Preview">
-        <IconButton
-          size="large"
-          onClick={openPreviewModal}
-          sx={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            zIndex: 2,
-          }}
-        >
-          <ZoomInIcon fontSize="medium" />
-        </IconButton>
-      </Tooltip>
     </>
   );
 }

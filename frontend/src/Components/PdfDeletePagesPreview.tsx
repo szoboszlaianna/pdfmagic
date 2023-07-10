@@ -3,6 +3,8 @@ import PageView from "./PageView";
 import PdfTooltip from "./PdfTooltip";
 import { Grid } from "@mui/material";
 import PreviewModal from "./PreviewModal";
+import PageCard from "./PageCard";
+import { ContentPasteOffSharp } from "@mui/icons-material";
 
 interface PdfPreviewProps {
   file: File;
@@ -18,9 +20,7 @@ function PdfDeletePagesPreview({
   onFileDelete,
 }: PdfPreviewProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
-  const [pageNumber, setPageNumber] = useState<number>(1);
   const [hovering, setHovering] = useState<number | null>(null);
-  const [openModal, setOpenModal] = useState<boolean>(false);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
@@ -36,64 +36,38 @@ function PdfDeletePagesPreview({
     setDeletedPages((prevDeletedPages) => [...prevDeletedPages, pageIndex]);
   };
 
-  function handleOpenModal(index: number) {
-    setPageNumber(index + 1);
-    setOpenModal(true);
-  }
+  console.log(numPages);
 
   return (
     <>
-      <Grid container sx={{ marginTop: 8 }} spacing={2} justifyContent="center">
+      <Grid
+        container
+        sx={{ marginTop: 8, marginBottom: 8 }}
+        spacing={2}
+        justifyContent="center"
+      >
         {Array.from(new Array(numPages), (el, index) => {
           if (deletedPages.includes(index)) {
             return null; // Skip rendering the deleted page
           }
           return (
             <Grid
-              key={index}
               item
-              xs={8}
-              sm={5}
-              md={2}
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                margin: 2,
-                padding: 1,
-                position: "relative",
-                height: 300,
-                justifyContent: "center",
-                backgroundColor: "rgba(255,141,84, 0.6)",
-                borderRadius: 5,
-                border: index == hovering ? "2px solid #FFF" : "none",
-                opacity: index == hovering ? 1 : 0.8,
-              }}
+              key={index}
               onMouseEnter={() => setHovering(index)}
               onMouseLeave={() => setHovering(null)}
             >
-              {hovering === index && (
-                <PdfTooltip
-                  handleDelete={() => handleDelete(index)}
-                  openPreviewModal={() => handleOpenModal(index)}
-                />
-              )}
-              <PageView
-                key={index}
+              <PageCard
                 file={file}
                 pageNumber={index + 1}
+                hovering={hovering === index}
+                handleDelete={() => handleDelete(index)}
                 onDocumentLoadSuccess={onDocumentLoadSuccess}
               />
             </Grid>
           );
         })}
       </Grid>
-      <PreviewModal
-        pageNumber={pageNumber}
-        closePreviewModal={() => setOpenModal(false)}
-        file={file}
-        openPreview={openModal}
-      />
     </>
   );
 }

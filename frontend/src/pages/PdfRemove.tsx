@@ -1,5 +1,6 @@
 import { Box, Button } from "@mui/material";
 import { useState } from "react";
+import PageCard from "../components/PageCard";
 import PdfDeletePagesPreview from "../components/PdfDeletePagesPreview";
 import UploadCard from "../components/UploadCard";
 

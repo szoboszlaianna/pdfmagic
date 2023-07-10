@@ -3,6 +3,7 @@ import PdfTooltip from "./PdfTooltip";
 import { Grid } from "@mui/material";
 import PreviewModal from "./PreviewModal";
 import PageView from "./PageView";
+import PageCard from "./PageCard";
 
 interface PdfPreviewProps {
   file: File;
