@@ -1,8 +1,5 @@
 import { useCallback, useState } from "react";
-import PdfTooltip from "./PdfTooltip";
 import { Grid } from "@mui/material";
-import PreviewModal from "./PreviewModal";
-import PageView from "./PageView";
 import PageCard from "./PageCard";
 
 interface PdfPreviewProps {
@@ -12,17 +9,10 @@ interface PdfPreviewProps {
 }
 
 function PdfPagesPreview({ file, pageOrder, setPageOrder }: PdfPreviewProps) {
-  const [pageNumber, setPageNumber] = useState<number>(1);
   const [hovering, setHovering] = useState<number | null>(null);
-  const [openModal, setOpenModal] = useState<boolean>(false);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setPageOrder(Array.from(new Array(numPages), (_, index) => index));
-  }
-
-  function handleOpenModal(index: number) {
-    setPageNumber(index + 1);
-    setOpenModal(true);
   }
 
   const handleDragStart = useCallback(
@@ -53,57 +43,30 @@ function PdfPagesPreview({ file, pageOrder, setPageOrder }: PdfPreviewProps) {
     [pageOrder]
   );
   return (
-    <>
-      <Grid container sx={{ marginTop: 8 }} spacing={2} justifyContent="center">
-        {pageOrder.map((index) => {
-          return (
-            <Grid
-              key={index}
-              item
-              xs={8}
-              sm={5}
-              md={2}
-              draggable
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                margin: 2,
-                padding: 1,
-                position: "relative",
-                height: 300,
-                justifyContent: "center",
-                backgroundColor: "rgba(255,141,84, 0.6)",
-                borderRadius: 5,
-                border: index == hovering ? "2px solid #FFF" : "none",
-                opacity: index == hovering ? 1 : 0.8,
-              }}
-              onMouseEnter={() => setHovering(index)}
-              onMouseLeave={() => setHovering(null)}
-              onDragStart={(event) => handleDragStart(event, index)}
-              onDragOver={handleDragOver}
-              onDrop={(event) => handleDrop(event, index)}
-            >
-              {hovering === index && (
-                <PdfTooltip openPreviewModal={() => handleOpenModal(index)} />
-              )}
-              <PageView
-                key={index}
-                file={file}
-                pageNumber={index + 1}
-                onDocumentLoadSuccess={onDocumentLoadSuccess}
-              />
-            </Grid>
-          );
-        })}
-      </Grid>
-      <PreviewModal
-        pageNumber={pageNumber}
-        closePreviewModal={() => setOpenModal(false)}
-        file={file}
-        openPreview={openModal}
-      />
-    </>
+    <Grid container sx={{ marginTop: 8 }} spacing={2} justifyContent="center">
+      {pageOrder.map((index) => {
+        return (
+          <Grid
+            key={index}
+            item
+            draggable
+            sx={{ cursor: index === hovering ? "grab" : "" }}
+            onMouseEnter={() => setHovering(index)}
+            onMouseLeave={() => setHovering(null)}
+            onDragStart={(event) => handleDragStart(event, index)}
+            onDragOver={handleDragOver}
+            onDrop={(event) => handleDrop(event, index)}
+          >
+            <PageCard
+              file={file}
+              pageNumber={index + 1}
+              hovering={index === hovering}
+              onDocumentLoadSuccess={onDocumentLoadSuccess}
+            />
+          </Grid>
+        );
+      })}
+    </Grid>
   );
 }
 
