@@ -37,9 +37,9 @@ jobs:
 
       - name: Install ESLint and plugins
         run: |
-          npm install eslint --save-dev
+          npm install
 
       - name: Run ESLint on Frontend
         run: |
           cd frontend
-          npx eslint .
+          npm run lint
