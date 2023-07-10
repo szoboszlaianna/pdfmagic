@@ -148,6 +148,3 @@ function Navbar() {
   );
 }
 export default Navbar;
-function useHistory() {
-  throw new Error("Function not implemented.");
-}

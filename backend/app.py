@@ -3,11 +3,11 @@ import tempfile
 from flask import Flask, request, jsonify, send_file
 from PyPDF2 import PdfReader, PdfWriter, PdfMerger
 import io
-import logging
 
 app = Flask(__name__)
 
 temp_files = {}
+
 
 @app.route('/upload_files', methods=['POST'])
 def upload_files():
@@ -19,6 +19,7 @@ def upload_files():
         temp_files[temp_file.name] = temp_file
     # Process the uploaded files or return a response
     return jsonify({'message': 'Files uploaded successfully'})
+
 
 @app.route('/merge-pdf', methods=['POST'])
 def merge_pdf():
@@ -43,6 +44,7 @@ def merge_pdf():
     merger.write(output)
     output.seek(0)
     return send_file(output, download_name="merged.pdf", as_attachment=True)
+
 
 @app.route('/remove', methods=['POST'])
 def remove_pages():
@@ -109,6 +111,7 @@ def reorder_pages():
 
     # return the temporary file for download
     return send_file(temp_file.name, download_name=temp_file.name, as_attachment=True)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
