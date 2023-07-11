@@ -95,9 +95,9 @@ function Navbar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
+              {pages.map((page, i) => (
                 <MenuItem
-                  key={page.name}
+                  key={i}
                   onClick={() => handleMenuItemClick(page.route)}
                 >
                   <Typography textAlign="center">{page.name}</Typography>
@@ -132,9 +132,9 @@ function Navbar() {
               display: { xs: "none", md: "flex", flexDirection: "row-reverse" },
             }}
           >
-            {pages.map((page) => (
+            {pages.map((page, i) => (
               <Button
-                key={page.name}
+                key={i}
                 onClick={() => handleMenuItemClick(page.route)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >

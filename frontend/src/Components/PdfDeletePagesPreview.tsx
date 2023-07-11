@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
-import PageView from "./PageView";
-import PdfTooltip from "./PdfTooltip";
 import { Grid } from "@mui/material";
-import PreviewModal from "./PreviewModal";
 import PageCard from "./PageCard";
-import { ContentPasteOffSharp } from "@mui/icons-material";
 
 interface PdfPreviewProps {
   file: File;
@@ -35,8 +31,6 @@ function PdfDeletePagesPreview({
   const handleDelete = (pageIndex: number) => {
     setDeletedPages((prevDeletedPages) => [...prevDeletedPages, pageIndex]);
   };
-
-  console.log(numPages);
 
   return (
     <>

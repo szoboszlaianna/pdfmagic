@@ -8,8 +8,6 @@ interface TooltipProps {
 }
 
 function PdfTooltip({ handleDelete, openPreviewModal }: TooltipProps) {
-  console.log(handleDelete);
-  console.log(openPreviewModal);
   return (
     <>
       <Tooltip title="Preview">

@@ -28,7 +28,9 @@ function PdfMerge() {
         alignItems: "center",
       }}
     >
-      <UploadCard onUploadComplete={handleUploadComplete} multiple />
+      {uploadedFiles.length === 0 && (
+        <UploadCard onUploadComplete={handleUploadComplete} multiple />
+      )}
       {uploadedFiles.length > 0 && (
         <>
           <Previews

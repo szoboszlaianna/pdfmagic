@@ -1,6 +1,8 @@
 import { Grid } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import PageCard from "./PageCard";
+import PageUploadCard from "./PageUploadCard";
+import { pdfjs } from "react-pdf";
 
 interface PdfPreviewProps {
   uploadedFiles: File[];
@@ -15,6 +17,7 @@ function Previews({
 }: PdfPreviewProps) {
   const [files, setFiles] = useState(uploadedFiles);
   const [hovering, setHovering] = useState<number | null>(null);
+  const [numPages, setNumPages] = useState(0);
 
   useEffect(() => {
     setFiles(uploadedFiles);
@@ -53,6 +56,10 @@ function Previews({
     [files]
   );
 
+  const handleFileUpload = (files: File[]) => {
+    setUploadedFiles([...uploadedFiles, ...files]);
+  };
+
   return (
     <Grid container sx={{ marginTop: 8 }} spacing={2} justifyContent="center">
       {files.map((file, index) => (
@@ -62,7 +69,7 @@ function Previews({
           sx={{
             cursor: index === hovering ? "grab" : "",
           }}
-          key={file.name}
+          key={index}
           onDragStart={(event) => handleDragStart(event, index)}
           onDragOver={handleDragOver}
           onDrop={(event) => handleDrop(event, index)}
@@ -71,13 +78,19 @@ function Previews({
         >
           <PageCard
             file={file}
-            pageNumber={index + 1}
+            pageNumber={1}
+            numPages={numPages}
             hovering={index === hovering}
             handleDelete={() => handleFileDelete(file)}
-            isFile
+            onDocumentLoadSuccess={(pdf: pdfjs.PDFDocumentProxy) =>
+              setNumPages(pdf.numPages)
+            }
           />
         </Grid>
       ))}
+      <Grid item>
+        <PageUploadCard onUploadComplete={handleFileUpload} multiple />
+      </Grid>
     </Grid>
   );
 }
