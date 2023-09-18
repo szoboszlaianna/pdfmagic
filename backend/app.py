@@ -8,6 +8,9 @@ app = Flask(__name__)
 
 temp_files = {}
 
+@app.route('/', methods=['GET'])
+def root():
+    return "OK", 200
 
 @app.route('/upload_files', methods=['POST'])
 def upload_files():
