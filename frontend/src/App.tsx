@@ -1,10 +1,10 @@
 import { Container } from "@mui/material";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar";
 import PdfMerge from "./pages/PdfMerge";
 import PdfRemove from "./pages/PdfRemove";
 import PdfReorder from "./pages/PdfReorder";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
