@@ -4,9 +4,10 @@ import { toast } from "react-toastify";
 
 type UploadCardProps = {
   onUploadComplete: (files: File[]) => void;
+  multiple?: boolean;
 };
 
-const UploadCard = ({ onUploadComplete }: UploadCardProps) => {
+const UploadCard = ({ onUploadComplete, multiple }: UploadCardProps) => {
   function handleFilesSelected(files: File[] | null): void {
     const formData: FormData = new FormData();
 
@@ -29,13 +30,12 @@ const UploadCard = ({ onUploadComplete }: UploadCardProps) => {
         }
         return response.json();
       })
-      .then((data: any) => {
+      .then(() => {
         onUploadComplete(files);
       })
       .catch((error: Error) => {
         console.error(error);
         toast.error("Error uploading files");
-        // Handle errors
       });
   }
 
@@ -45,7 +45,10 @@ const UploadCard = ({ onUploadComplete }: UploadCardProps) => {
       <CardContent
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
-        <DragAndDrop onFilesSelected={handleFilesSelected} />
+        <DragAndDrop
+          onFilesSelected={handleFilesSelected}
+          multiple={multiple}
+        />
       </CardContent>
     </Card>
   );

@@ -1,53 +1,24 @@
-import { Box, Container } from "@mui/material";
-import { useState } from "react";
+import { Container } from "@mui/material";
 import "./App.css";
-import MergeButton from "./components/MergeButton";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Previews from "./components/Previews";
-import UploadCard from "./components/UploadCard";
+import PdfMerge from "./pages/PdfMerge";
+import PdfRemove from "./pages/PdfRemove";
+import PdfReorder from "./pages/PdfReorder";
 
 function App() {
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-
-  function handleUploadComplete(files: File[]): void {
-    setUploadedFiles((prevUploadedFiles: File[]) => [
-      ...prevUploadedFiles,
-      ...files,
-    ]);
-  }
-
-  function handleFileDelete(fileToDelete: File): void {
-    const newList = uploadedFiles.filter((file: File) => file !== fileToDelete);
-    setUploadedFiles(newList);
-  }
-
   return (
-    <>
+    <Router>
       <Navbar />
       <Container sx={{ marginTop: "2rem" }}>
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <UploadCard onUploadComplete={handleUploadComplete} />
-
-          {uploadedFiles.length > 0 && (
-            <>
-              <Previews
-                uploadedFiles={uploadedFiles}
-                setUploadedFiles={setUploadedFiles}
-                onDelete={handleFileDelete}
-              />
-              <MergeButton uploadedFiles={uploadedFiles} />
-            </>
-          )}
-        </Box>
+        <Routes>
+          <Route path="/merge" element={<PdfMerge />} />
+          <Route path="/remove" element={<PdfRemove />} />
+          <Route path="/reorder" element={<PdfReorder />} />
+          {/* Add more routes as needed */}
+        </Routes>
       </Container>
-    </>
+    </Router>
   );
 }
 
